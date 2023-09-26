@@ -1,0 +1,10 @@
+*.key
+*.crt
+*.cert
+*.pem
+*.csr
+*.txt
+serial
+*.attr
+*.old
+crlnumber
