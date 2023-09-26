@@ -1,12 +1,21 @@
 #!/bin/bash
 cd "$(dirname "$0")"
+
 # Certrificate Issuer data (Can be a root or Intermediate CA). For CA just use 'ca'
-ISSUER_COMMONNAME="HomeServerIntermediate0"
-OPENSSL_CONF=../conf/intermediate.conf
+ISSUER_COMMONNAME="ca"
+OPENSSL_CONF=../conf/ca.conf
+# ISSUER_COMMONNAME="HomeServerIntermediate0"
+# OPENSSL_CONF=../conf/intermediate.conf
+
 
 # Certificate Subject Data
-SUBJECT_COMMONNAME="LocalServer0"
-CERT_VALIDITY_DAYS=182 # 6 months
+# SUBJECT_COMMONNAME="HomeServerIntermediate0"
+SUBJECT_COMMONNAME="HomeServerIntermediate0Branch0"
+# CERT_VALIDITY_DAYS=1825 # 5 years
+CERT_VALIDITY_DAYS=3650 # 10 years
+
+SUBJECT_TYPE="intermediate" # intermediate or server
+
 
 echo "###########################################################################################################"
 echo "Sign ${SUBJECT_COMMONNAME} cert by ${ISSUER_COMMONNAME} for ${CERT_VALIDITY_DAYS} days"
@@ -20,14 +29,20 @@ else
       ISSUER_DIR="../intermediate/${ISSUER_COMMONNAME}"
 fi
 
-SUBJECT_DIR="../server/${SUBJECT_COMMONNAME}"
+SUBJECT_DIR="../${SUBJECT_TYPE}/${SUBJECT_COMMONNAME}"
 
-# Sign intermediate with root ca
+if [[ "$SUBJECT_TYPE" == "intermediate" ]]; then
+      DEFAULT_EXTENSION="v3_intermediate_ca"
+else
+      DEFAULT_EXTENSION="server_cert"
+fi
+
+# Sign certificate with ca
 echo "Use CA certificate to sign CSR"
 echo "Issuer Key Password"
 openssl ca \
       -config $OPENSSL_CONF \
-      -extensions server_cert \
+      -extensions $DEFAULT_EXTENSION \
       -days $CERT_VALIDITY_DAYS \
       -notext \
       -md sha256 \
