@@ -1,20 +1,21 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-# Certrificate Issuer data (Can be a root or Intermediate CA). For CA just use 'ca'
+# Intermediate CA signing data
 ISSUER_COMMONNAME="ca"
 OPENSSL_CONF=../conf/ca.conf
+CERT_VALIDITY_DAYS=3650 # 10 years
+SUBJECT_COMMONNAME="HomeServerIntermediate0"
+SUBJECT_TYPE="intermediate" # intermediate or server
+
+
+# Server signing data
 # ISSUER_COMMONNAME="HomeServerIntermediate0"
 # OPENSSL_CONF=../conf/intermediate.conf
+# CERT_VALIDITY_DAYS=182 # 6 months
+# SUBJECT_COMMONNAME="LocalServer0"
+# SUBJECT_TYPE="server" # intermediate or server
 
-
-# Certificate Subject Data
-# SUBJECT_COMMONNAME="HomeServerIntermediate0"
-SUBJECT_COMMONNAME="HomeServerIntermediate0Branch0"
-# CERT_VALIDITY_DAYS=1825 # 5 years
-CERT_VALIDITY_DAYS=3650 # 10 years
-
-SUBJECT_TYPE="intermediate" # intermediate or server
 
 
 echo "###########################################################################################################"
