@@ -1,6 +1,8 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
+# This script should only be ran once
+
 # Set the validaty length of the Root CA
 CERT_VALIDITY_DAYS=7300 # 20 years
 
