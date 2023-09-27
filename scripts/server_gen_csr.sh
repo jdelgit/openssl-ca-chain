@@ -5,9 +5,15 @@ cd "$(dirname "$0")"
 ISSUER_COMMONNAME="HomeServerIntermediate0"
 OPENSSL_CONF=../conf/intermediate.conf
 
-# Certificate Subject Data
+# Certificate Server Subject Data
 SUBJECT_COMMONNAME="LocalServer0"
 CERT_VALIDITY_DAYS=182 # 6 months
+SUBJECT_TYPE="server" # intermediate, server, or client
+
+# # Certificate Client Subject Data
+# SUBJECT_COMMONNAME="LocalUser0"
+# CERT_VALIDITY_DAYS=182 # 6 months
+# SUBJECT_TYPE="client" # intermediate, server, or client
 
 echo "##########################################################"
 echo "Setting up directories for ${SUBJECT_COMMONNAME}"
@@ -15,7 +21,7 @@ echo "##########################################################"
 # export the value so it can be used in the corresponding openssl.conf
 export ISSUER_COMMONNAME=$ISSUER_COMMONNAME
 
-SUBJECT_DIR="../server/${SUBJECT_COMMONNAME}"
+SUBJECT_DIR="../${SUBJECT_TYPE}/${SUBJECT_COMMONNAME}"
 # Create directories for created certificates and private keys
 mkdir -p \
       "${SUBJECT_DIR}/certs" \
@@ -37,7 +43,6 @@ else
       ISSUER_DIR="../intermediate/${ISSUER_COMMONNAME}"
 fi
 
-SUBJECT_DIR="../server/${SUBJECT_COMMONNAME}"
 # Private Key
 # Generate Private key for Server
 echo "##########################################################"

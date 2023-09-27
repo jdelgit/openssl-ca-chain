@@ -29,7 +29,7 @@ mkdir -p \
 chmod 700 "${SUBJECT_DIR}/private"
 
 # Create file that tracks all created certificates (must match [ CA_default ] database in conf/intermediate.conf)
-touch "${SUBJECT_DIR}/${SUBJECT_COMMONNAME}_DB.txt"
+touch "${SUBJECT_DIR}/db/${SUBJECT_COMMONNAME}_DB.txt"
 
 # Set start index Id for generated certificates
 echo 1000 > "${SUBJECT_DIR}/serial"

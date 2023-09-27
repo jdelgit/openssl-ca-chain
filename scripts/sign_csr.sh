@@ -6,16 +6,22 @@ ISSUER_COMMONNAME="ca"
 OPENSSL_CONF=../conf/ca.conf
 CERT_VALIDITY_DAYS=3650 # 10 years
 SUBJECT_COMMONNAME="HomeServerIntermediate0"
-SUBJECT_TYPE="intermediate" # intermediate or server
+SUBJECT_TYPE="intermediate" # intermediate, server, or client
 
 
-# Server signing data
+# # Server signing data
 # ISSUER_COMMONNAME="HomeServerIntermediate0"
 # OPENSSL_CONF=../conf/intermediate.conf
 # CERT_VALIDITY_DAYS=182 # 6 months
 # SUBJECT_COMMONNAME="LocalServer0"
 # SUBJECT_TYPE="server" # intermediate or server
 
+# # Client signing data
+# ISSUER_COMMONNAME="HomeServerIntermediate0"
+# OPENSSL_CONF=../conf/intermediate.conf
+# CERT_VALIDITY_DAYS=182 # 6 months
+# SUBJECT_COMMONNAME="LocalUser0"
+# SUBJECT_TYPE="client" # intermediate, server, or client
 
 
 echo "###########################################################################################################"
@@ -34,8 +40,10 @@ SUBJECT_DIR="../${SUBJECT_TYPE}/${SUBJECT_COMMONNAME}"
 
 if [[ "$SUBJECT_TYPE" == "intermediate" ]]; then
       DEFAULT_EXTENSION="v3_intermediate_ca"
-else
+elif [[ "$SUBJECT_TYPE" == "server" ]]; then
       DEFAULT_EXTENSION="server_cert"
+else
+      DEFAULT_EXTENSION="usr_cert"
 fi
 
 # Sign certificate with ca
