@@ -1,20 +1,21 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-# Intermediate CA signing data
-ISSUER_COMMONNAME="ca"
-OPENSSL_CONF=../conf/ca.conf
-CERT_VALIDITY_DAYS=3650 # 10 years
-SUBJECT_COMMONNAME="HomeServerIntermediate0"
-SUBJECT_TYPE="intermediate" # intermediate, server, or client
+# # Intermediate CA signing data
+# ISSUER_COMMONNAME="ca"
+# OPENSSL_CONF=../conf/ca.conf
+# CERT_VALIDITY_DAYS=3650 # 10 years
+# SUBJECT_COMMONNAME="HomeServerIntermediate0"
+# SUBJECT_TYPE="intermediate" # intermediate, server, or client
 
 
-# # Server signing data
-# ISSUER_COMMONNAME="HomeServerIntermediate0"
-# OPENSSL_CONF=../conf/intermediate.conf
-# CERT_VALIDITY_DAYS=182 # 6 months
-# SUBJECT_COMMONNAME="LocalServer0"
-# SUBJECT_TYPE="server" # intermediate or server
+# Server signing data
+ISSUER_COMMONNAME="HomeServerIntermediate0"
+OPENSSL_CONF=../conf/intermediate.conf
+SUBJECT_SAN=DNS:webserver.local
+CERT_VALIDITY_DAYS=182 # 6 months
+SUBJECT_COMMONNAME="LocalServer0"
+SUBJECT_TYPE="server" # intermediate or server
 
 # # Client signing data
 # ISSUER_COMMONNAME="HomeServerIntermediate0"
@@ -29,7 +30,7 @@ echo "Sign ${SUBJECT_COMMONNAME} cert by ${ISSUER_COMMONNAME} for ${CERT_VALIDIT
 echo "###########################################################################################################"
 # export the value so it can be used in the corresponding openssl.conf
 export ISSUER_COMMONNAME=$ISSUER_COMMONNAME
-
+export SUBJECT_SAN=$SUBJECT_SAN
 if [[ "$ISSUER_COMMONNAME" == "ca" ]]; then
       ISSUER_DIR="../ca"
 else
@@ -91,10 +92,10 @@ echo "Create chain cert"
 echo "##########################################################"
 # Create chain file of root and ${COMMONNAME} cert
 if [[ "$ISSUER_COMMONNAME" == "ca" ]]; then
-      cat "${ISSUER_DIR}/certs/ca.crt" \
-            "${SUBJECT_DIR}/certs/${SUBJECT_COMMONNAME}.crt" > "${SUBJECT_DIR}/certs/ca-chain.crt"
+      cat "${SUBJECT_DIR}/certs/${SUBJECT_COMMONNAME}.crt" \
+            "${ISSUER_DIR}/certs/ca.crt" > "${SUBJECT_DIR}/certs/ca-chain.crt"
 else
-      cat "${ISSUER_DIR}/certs/ca-chain.crt" \
-            "${SUBJECT_DIR}/certs/${SUBJECT_COMMONNAME}.crt" > "${SUBJECT_DIR}/certs/ca-chain.crt"
+      cat "${SUBJECT_DIR}/certs/${SUBJECT_COMMONNAME}.crt" \
+            "${ISSUER_DIR}/certs/ca-chain.crt" > "${SUBJECT_DIR}/certs/ca-chain.crt"
 fi
 chmod 444 "${SUBJECT_DIR}/certs/ca-chain.crt"

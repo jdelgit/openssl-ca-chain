@@ -7,6 +7,7 @@ OPENSSL_CONF=../conf/intermediate.conf
 
 # Certificate Server Subject Data
 SUBJECT_COMMONNAME="LocalServer0"
+SUBJECT_SAN=DNS:webserver.local
 CERT_VALIDITY_DAYS=182 # 6 months
 SUBJECT_TYPE="server" # intermediate, server, or client
 
@@ -20,6 +21,7 @@ echo "Setting up directories for ${SUBJECT_COMMONNAME}"
 echo "##########################################################"
 # export the value so it can be used in the corresponding openssl.conf
 export ISSUER_COMMONNAME=$ISSUER_COMMONNAME
+export SUBJECT_SAN=$SUBJECT_SAN
 
 SUBJECT_DIR="../${SUBJECT_TYPE}/${SUBJECT_COMMONNAME}"
 # Create directories for created certificates and private keys
@@ -59,8 +61,16 @@ chmod 0400 "${SUBJECT_DIR}/private/${SUBJECT_COMMONNAME}.key"
 echo "##########################################################"
 echo  "Generating CSR for ${SUBJECT_COMMONNAME}"
 echo "##########################################################"
+if [[ "$SUBJECT_TYPE" == "intermediate" ]]; then
+      DEFAULT_EXTENSION="v3_intermediate_ca"
+elif [[ "$SUBJECT_TYPE" == "server" ]]; then
+      DEFAULT_EXTENSION="server_cert"
+else
+      DEFAULT_EXTENSION="usr_cert"
+fi
 openssl req \
       -config "$OPENSSL_CONF" \
+      -extensions $DEFAULT_EXTENSION \
       -new \
       -sha256 \
       -key "${SUBJECT_DIR}/private/${SUBJECT_COMMONNAME}.key" \
