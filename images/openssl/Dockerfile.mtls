@@ -3,5 +3,5 @@ FROM localopenssl:latest
 
 ENV PORT=8843
 
-ENTRYPOINT [ "openssl",]
+ENTRYPOINT [ "openssl"]
 CMD ["s_server" , "-chainCAfile", "/ssl/ca-chain.crt", "-cert", "/ssl/server.crt", "-key", "/ssl/server.key", "-Verify", "2","-www", "-accept", "${PORT}"]
