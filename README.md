@@ -54,4 +54,4 @@ More information on `openssl` can be found on their website [OpenSSL](https://ww
 
 ## [Inspecting the root certificate authority (CA)](docs/01.InspectingCertificateChain.md)
 
-## [Creattomg Trust Chain](docs/02.CreateCertificateAuthority.md)
+## [Creating Trust Chain](docs/02.CreateCertificateAuthority.md)
