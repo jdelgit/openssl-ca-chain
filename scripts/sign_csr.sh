@@ -1,25 +1,26 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-# # Intermediate CA signing data
-# ISSUER_COMMONNAME="ca"
-# OPENSSL_CONF=../conf/ca.conf
-# CERT_VALIDITY_DAYS=3650 # 10 years
-# SUBJECT_COMMONNAME="HomeServerIntermediate0"
-# SUBJECT_TYPE="intermediate" # intermediate, server, or client
+# Intermediate CA signing data
+ISSUER_COMMONNAME="ca"
+OPENSSL_CONF=../conf/ca.conf
+CERT_VALIDITY_DAYS=3650 # 10 years
+SUBJECT_COMMONNAME="HomeServerIntermediate0"
+SUBJECT_TYPE="intermediate" # intermediate, server, or client
 
 
-# Server signing data
-ISSUER_COMMONNAME="HomeServerIntermediate0"
-OPENSSL_CONF=../conf/intermediate.conf
-SUBJECT_SAN=DNS:webserver.local
-CERT_VALIDITY_DAYS=182 # 6 months
-SUBJECT_COMMONNAME="LocalServer0"
-SUBJECT_TYPE="server" # intermediate or server
+# # Server signing data
+# ISSUER_COMMONNAME="HomeServerIntermediate0"
+# OPENSSL_CONF=../conf/intermediate.conf
+# SUBJECT_SAN=DNS:webserver.local,DNS:localhost
+# CERT_VALIDITY_DAYS=182 # 6 months
+# SUBJECT_COMMONNAME="LocalServer0"
+# SUBJECT_TYPE="server" # intermediate or server
 
 # # Client signing data
 # ISSUER_COMMONNAME="HomeServerIntermediate0"
 # OPENSSL_CONF=../conf/intermediate.conf
+# SUBJECT_SAN=email:user@webserver.local
 # CERT_VALIDITY_DAYS=182 # 6 months
 # SUBJECT_COMMONNAME="LocalUser0"
 # SUBJECT_TYPE="client" # intermediate, server, or client
@@ -99,3 +100,14 @@ else
             "${ISSUER_DIR}/certs/ca-chain.crt" > "${SUBJECT_DIR}/certs/ca-chain.crt"
 fi
 chmod 444 "${SUBJECT_DIR}/certs/ca-chain.crt"
+
+if [[ "$SUBJECT_TYPE" == "usr_cert" ]]; then
+      echo "##########################################################"
+      echo "Create PFX chain for cert"
+      echo "##########################################################"
+      openssl pkcs12 \
+            -export \
+            -inkey "${SUBJECT_DIR}/private/${SUBJECT_COMMONNAME}.key" \
+            -in "${SUBJECT_DIR}/certs/${SUBJECT_COMMONNAME}.crt" \
+            -out "${SUBJECT_DIR}/private/${SUBJECT_COMMONNAME}.pfx"
+fi

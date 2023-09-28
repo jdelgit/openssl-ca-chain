@@ -5,15 +5,16 @@ cd "$(dirname "$0")"
 ISSUER_COMMONNAME="HomeServerIntermediate0"
 OPENSSL_CONF=../conf/intermediate.conf
 
-# Certificate Server Subject Data
+# Server signing data
 SUBJECT_COMMONNAME="LocalServer0"
 SUBJECT_SAN=DNS:webserver.local
 CERT_VALIDITY_DAYS=182 # 6 months
 SUBJECT_TYPE="server" # intermediate, server, or client
 
-# # Certificate Client Subject Data
+# # Client signing data
 # SUBJECT_COMMONNAME="LocalUser0"
 # CERT_VALIDITY_DAYS=182 # 6 months
+# SUBJECT_SAN=email:user@webserver.local
 # SUBJECT_TYPE="client" # intermediate, server, or client
 
 echo "##########################################################"

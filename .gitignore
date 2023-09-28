@@ -7,4 +7,5 @@
 serial
 *.attr
 *.old
+*.pfx
 crlnumber
