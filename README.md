@@ -19,14 +19,20 @@ More information on `openssl` can be found on their website [OpenSSL](https://ww
 
 #### Commands used
 `docker` -> run webserver container
+
 `curl` -> make web request
+
 `grep` -> search text for snippets
+
 `awk` -> select snippets from text
+
 `openssl` -> all certificate actions
 
 **Manage Private key**
 `openssl genrsa`  -> generate private key
+
 `openssl rsa` -> inspect private key
+
 `openssl pkcs12`  -> generate PFX file
 
 **Manage CSR**
@@ -34,10 +40,12 @@ More information on `openssl` can be found on their website [OpenSSL](https://ww
 
 **Manage certificates**
 `openssl x509` -> Inspect certificates
+
 `openssl ca` -> Use CA to sign certificates
 
 **Testing certificates**
 `openssl s_client` -> Make request to TLS server
+
 `openssl s_server` -> Lightweight TLS server
 
 `openssl verify` ->Verify a signed certificate against its issuer
@@ -49,6 +57,7 @@ More information on `openssl` can be found on their website [OpenSSL](https://ww
 `openssl x509 -in <cert-filepath> -noout -text`
 
 `echo "Q" | openssl s_client -showcerts -connect <host>:<port>`
+
 `echo "Q"` terminates the connection after having it established
 
 
