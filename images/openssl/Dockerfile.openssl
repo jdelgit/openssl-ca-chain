@@ -1,6 +1,6 @@
 FROM debian:latest
 RUN apt update && \
     apt install openssl -y
-COPY ../intermediate/HomeServerIntermediate0/certs/ca-chain.crt /ssl/ca-chain.crt
-COPY ../server/LocalServer0/certs/LocalServer0.crt /ssl/server.crt
-COPY ../server/LocalServer0/private/LocalServer0.key /ssl/server.key
+COPY intermediate/HomeServerIntermediate0/certs/ca-chain.crt /ssl/ca-chain.crt
+COPY server/LocalServer0/certs/LocalServer0.crt /ssl/server.crt
+COPY server/LocalServer0/private/LocalServer0.key /ssl/server.key

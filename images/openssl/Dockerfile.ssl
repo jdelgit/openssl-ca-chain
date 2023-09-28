@@ -1,6 +1,7 @@
 FROM localopenssl:latest
 
-ENV PORT=8843
+# Passing the PORT as an environment variable causes an error: "Servname not supported for ai_socktype"
+# Works in regular bash command line, but CMD doesn't like it
 
 ENTRYPOINT [ "openssl"]
-CMD ["s_server" , "-chainCAfile", "/ssl/ca-chain.crt", "-cert", "/ssl/server.crt", "-key", "/ssl/server.key", "-www", "-accept", "8843" ]
+CMD ["s_server" , "-chainCAfile", "/ssl/ca-chain.crt", "-cert", "/ssl/server.crt", "-key", "/ssl/server.key","-www", "-accept", "8843"]
