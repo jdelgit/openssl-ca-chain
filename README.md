@@ -1,5 +1,4 @@
 # Certificate trust chain
-
 We'll look into certificate chain of trust using an existing trust-chain.
 We'll see how to inspect a certificate and confirm the chain. After that we are going to build our own certificate chain of trust using openssl
 
@@ -19,20 +18,14 @@ More information on `openssl` can be found on their website [OpenSSL](https://ww
 
 #### Commands used
 `docker` -> run webserver container
-
 `curl` -> make web request
-
 `grep` -> search text for snippets
-
 `awk` -> select snippets from text
-
 `openssl` -> all certificate actions
 
 **Manage Private key**
 `openssl genrsa`  -> generate private key
-
 `openssl rsa` -> inspect private key
-
 `openssl pkcs12`  -> generate PFX file
 
 **Manage CSR**
@@ -40,12 +33,10 @@ More information on `openssl` can be found on their website [OpenSSL](https://ww
 
 **Manage certificates**
 `openssl x509` -> Inspect certificates
-
 `openssl ca` -> Use CA to sign certificates
 
 **Testing certificates**
 `openssl s_client` -> Make request to TLS server
-
 `openssl s_server` -> Lightweight TLS server
 
 `openssl verify` ->Verify a signed certificate against its issuer
@@ -57,10 +48,22 @@ More information on `openssl` can be found on their website [OpenSSL](https://ww
 `openssl x509 -in <cert-filepath> -noout -text`
 
 `echo "Q" | openssl s_client -showcerts -connect <host>:<port>`
-
 `echo "Q"` terminates the connection after having it established
 
 
-## [Inspecting the root certificate authority (CA)](docs/01.InspectingCertificateChain.md)
 
-## [Creating Trust Chain](docs/02.CreateCertificateAuthority.md)
+1. Using `awk` and `openssl` on the  `/etc/ssl/certs/ca-certificates.crt` system certificate file.
+	-  `awk -v cmd='openssl x509 -noout -subject' '/BEGIN/{close(cmd)};{print | cmd}' < /etc/ssl/certs/ca-certificates.crt`
+2. Using `trust` command
+	- `trust list | grep label`
+
+#### [01 Anatomy of a certificate](docs/01AnatomyOfaCertificate.md)
+
+#### [02 Anatomy of a certificate chain](docs/02AnatomyOfaCertificateChain.md)
+
+#### [03 SSL and TLS](docs/03SSLandTLS.md)
+
+#### [04 Creating your own Certificate Chain](docs/04CreatingOwnCertificateChain.md)
+
+#### [05 TLS with your created Certificate chain](docs/05TLSwithCreatedCertificateChain.md)
+
