@@ -74,13 +74,4 @@ More information on `openssl` can be found on their website [OpenSSL](https://ww
 2. Using `trust` command
 	- `trust list | grep label`
 
-#### [01 Anatomy of a certificate](docs/01AnatomyOfaCertificate.md)
-
-#### [02 Anatomy of a certificate chain](docs/02AnatomyOfaCertificateChain.md)
-
-#### [03 SSL and TLS](docs/03SSLandTLS.md)
-
-#### [04 Creating your own Certificate Chain](docs/04CreatingOwnCertificateChain.md)
-
-#### [05 TLS with your created Certificate chain](docs/05TLSwithCreatedCertificateChain.md)
-
+For a short walkthrough checkout the docs folder in this repo. If you prefer you can also visit read it on the browser [here](https://jdelgit.github.io/anatomy-of-a-certificate/)
